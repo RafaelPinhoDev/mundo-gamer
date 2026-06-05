@@ -1,1 +1,185 @@
 @charset "UTF-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* =========================================
+   SISTEMA DE PREVIEW DE IMAGEM (Cadastro)
+   ========================================= */
+.preview-container {
+    position: relative;
+    width: 80px;  
+    height: 80px; 
+    border: 2px solid #0d6efd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    margin: 0; 
+    overflow: hidden; 
+}
+
+.preview-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill; 
+    display: block;
+}
+
+.preview-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+
+/* =========================================
+   LISTAGEM DE PRODUTOS (Cards)
+   ========================================= */
+
+/* Espaçamento da Grade */
+#lista-produtos > div {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+/* Evita que o rodapé pule durante a pesquisa */
+#lista-produtos {
+    min-height: 60vh; 
+}
+
+/* 1. O CARD (Ajustado para abraçar o conteúdo) */
+#catalogo-produtos .card {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea; 
+    border-radius: 20px;       
+    padding: 16px;             /* Mantém a margem branca em volta de tudo */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); 
+    display: flex;
+    flex-direction: column;
+    height: 100%;              /* Mantém os cards alinhados, sem forçar uma altura gigante */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#catalogo-produtos .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* 2. A IMAGEM */
+#catalogo-produtos .card img {
+    width: 100%;
+    height: 180px;         /* Altura controlada para não roubar a tela inteira */
+    object-fit: cover;
+    border-radius: 12px;   /* Cantos arredondados combinando com o card */
+    margin-bottom: 0;
+}
+
+/* 3. A TARJA DO ID */
+.id-pequeno {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px; 
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #1a1c20, #343a40); 
+    color: #ffffff;
+    padding: 8px 0;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* 4. TEXTOS (Nome, Preço e Descrição) */
+#catalogo-produtos .card h4 {
+    color: #2b2b2b;
+    font-size: 1.35rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.info-container {
+    flex-grow: 1; /* O segredo para empurrar os botões pra baixo e alinhar todos os cards */
+    margin-bottom: 15px;
+}
+
+.info-container h5 {
+    font-size: 1.4rem; 
+}
+
+#catalogo-produtos .card p.text-muted {
+    font-size: 0.95rem;
+    line-height: 1.6; 
+    margin-top: 15px;
+}
+
+/* 5. ÁREA DOS BOTÕES */
+.btn-group-custom {
+    padding-bottom: 8px; 
+    display: flex;
+    flex-direction: column;    
+    gap: 12px;            
+    width: 100%;
+}
+
+.btn-group-custom .btn {
+    width: 100%;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+    border: none !important; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+    transition: all 0.2s ease;
+}
+
+.btn-group-custom .btn:hover {
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    filter: brightness(1.05); 
+}
+
+/* Gradientes sutis nos botões para dar volume */
+.btn-group-custom .btn-warning {
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    color: #212529;
+}
+
+.btn-group-custom .btn-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+}
+
+
+/* =========================================
+   ANIMAÇÕES DE RENDERIZAÇÃO
+   ========================================= */
+@keyframes surgirSuave {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-animado {
+    animation: surgirSuave 0.5s ease-out forwards;
+}

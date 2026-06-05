@@ -45,12 +45,23 @@
 
 'use strict'
 
-// Importe a função do arquivo onde você criou o formulário
-// Ajuste o caminho "./cadastro.js" para o nome correto do seu arquivo
-import { criarEstruturaCadastro } from './pages/cadastro.js'
+import { criarListagem } from './pages/consulta.js'
 
-// Captura a div do HTML
 const estrutura = document.getElementById('estrutura')
 
-// Executa a função que cria o form e coloca ele na tela
-estrutura.replaceChildren(criarEstruturaCadastro())
+async function iniciarApp() {
+    console.log("1. app.js rodou e achou a div:", estrutura)
+
+    try {
+        console.log("2. Chamando a API para buscar os produtos...")
+        const telaPronta = await criarListagem()
+        
+        console.log("3. Tela montada com sucesso! Colocando no HTML...")
+        estrutura.replaceChildren(telaPronta)
+        
+    } catch (erro) {
+        console.error("Deu erro na hora de montar a tela:", erro)
+    }
+}
+
+iniciarApp()

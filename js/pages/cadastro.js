@@ -3,10 +3,10 @@
 import { preview, uploadImagem } from "../functions/preview.js"
 import { getProdutos, criarProduto, atualizarProduto, deletarProduto } from "../functions/produtos.js"
 
-async function salvarProduto(id, nome, descricao, preco, inputImagem, imagemPreview) {
+async function salvarProduto(id, nome, descricao, preco,estoque, inputImagem, imagemPreview) {
     
-    if(nome.value === "" || preco.value === "" ){
-        alert('Preencha pelo menos o Nome e o Preço')
+    if(nome.value === "" || preco.value === "" || estoque.value === ""){
+        alert('Preencha pelo menos o Nome, Preço e Estoque')
         return
     }
 
@@ -22,13 +22,14 @@ async function salvarProduto(id, nome, descricao, preco, inputImagem, imagemPrev
             nome: nome.value,
             descricao: descricao.value,
             preco: parseFloat(preco.value), 
+            estoque: parseInt(estoque.value),
             imagemUrl: linkImagem 
         }
 
         await criarProduto(novoProduto)
         alert('Produto cadastrado com sucesso!')
 
-        limparCampos(id, nome, descricao, preco, inputImagem, imagemPreview)
+        limparCampos(id, nome, descricao, preco, estoque, inputImagem, imagemPreview)
     }catch(error){
         console.error(error)
         alert('Erro ao tentar cadastrar produto')
@@ -36,18 +37,18 @@ async function salvarProduto(id, nome, descricao, preco, inputImagem, imagemPrev
     
 }
 
-function limparCampos(id, nome, descricao, preco, inputImagem, imagemPreview){
+function limparCampos(id, nome, descricao, preco, estoque, inputImagem, imagemPreview){
     id.value = ' ';
     nome.value = '';
     descricao.value = '';
     preco.value = '';
+    estoque.value = '';
     inputImagem.value = '';
     imagemPreview.src = 'https://placehold.co/200x200/e9ecef/495057?text=Sem+Foto';
 }
 
 
 export function criarEstruturaCadastro(produto){
-    const estrutura = document.getElementById('estrutura')
 
     const formulario = document.createElement('form')
     formulario.className = 'card shadow p-5 rounded-4 bg-white col-12 col-md-8 col-lg-6 mx-auto mt-5' 
@@ -100,6 +101,20 @@ export function criarEstruturaCadastro(produto){
     preco.step = '0.50'    // Permite que a setinha pule de centavo em centavo
     grupoPreco.append(labelPreco, preco)
 
+    // Agrupamento Estoque
+    const grupoEstoque = document.createElement('div')
+    grupoEstoque.className = 'mb-3'
+    const labelEstoque = document.createElement('label')
+    labelEstoque.className = 'form-label'
+    labelEstoque.textContent = 'Estoque (Unidades): '
+    const estoque = document.createElement('input')
+    estoque.className = 'form-control'
+    estoque.type = 'number'
+    estoque.placeholder = 'Ex: 50'
+    estoque.min = '0'     
+    estoque.step = '1'   
+    grupoEstoque.append(labelEstoque, estoque)
+
 
     // Agrupamento da Descrição
     const grupoDescricao = document.createElement('div')
@@ -151,7 +166,7 @@ export function criarEstruturaCadastro(produto){
     btnLimpar.className = 'btn btn-outline-secondary w-50'
     btnLimpar.type = 'button'
     btnLimpar.textContent = 'Limpar'
-    btnLimpar.onclick = () => limparCampos(id, nome, descricao, preco, inputImagem, imagemPreview)
+    btnLimpar.onclick = () => limparCampos(id, nome, descricao, preco, estoque, inputImagem, imagemPreview)
 
 
     // Botão salvar
@@ -159,11 +174,11 @@ export function criarEstruturaCadastro(produto){
     btnSalvar.className = 'btn btn-primary w-50'
     btnSalvar.type = 'button'
     btnSalvar.textContent = 'Salvar'
-    btnSalvar.onclick = () => salvarProduto(id, nome, descricao, preco, inputImagem, imagemPreview)
+    btnSalvar.onclick = () => salvarProduto(id, nome, descricao, preco, estoque, inputImagem, imagemPreview)
 
     grupoBotoes.append(btnLimpar, btnSalvar)
 
-    formulario.append(grupoId, grupoNome, grupoDescricao, grupoPreco, grupoImagem, grupoBotoes)
+    formulario.append(grupoId, grupoNome, grupoDescricao, grupoPreco, grupoEstoque, grupoImagem, grupoBotoes)
 
     return formulario
 }

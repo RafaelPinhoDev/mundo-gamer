@@ -1,8 +1,6 @@
-const BASE_URL = "https://base-back-dwpz.onrender.com/produtos"
+import { getToken, garantirLogin } from "./auth.js"
 
-function getToken() {
-  return localStorage.getItem("token")
-}
+const BASE_URL = "https://base-back-dwpz.onrender.com/produtos"
 
 function headersAutenticados() {
   return {
@@ -13,55 +11,38 @@ function headersAutenticados() {
 
 export async function getProdutos() {
   const response = await fetch(BASE_URL)
-  if (!response.ok) {
-    throw new Error("Erro ao buscar produtos")
-  }
+  if (!response.ok) throw new Error("Erro ao buscar produtos")
   return response.json()
 }
 
 export async function criarProduto(produto) {
-  const options = {
+  await garantirLogin()
+  const response = await fetch(BASE_URL, {
     method: "POST",
     headers: headersAutenticados(),
     body: JSON.stringify(produto)
-  }
-
-  const response = await fetch(BASE_URL, options)
-
-  if (!response.ok) {
-    throw new Error("Erro ao criar produto")
-  }
-
+  })
+  if (!response.ok) throw new Error("Erro ao criar produto")
   return response.json()
 }
 
 export async function atualizarProduto(id, produto) {
-  const options = {
-    method: "PUT",
+  await garantirLogin()
+  const response = await fetch(`${BASE_URL}/${id}`, {
+    method: "PATCH",
     headers: headersAutenticados(),
     body: JSON.stringify(produto)
-  }
-
-  const response = await fetch(`${BASE_URL}/${id}`, options)
-
-  if (!response.ok) {
-    throw new Error("Erro ao atualizar produto")
-  }
-
+  })
+  if (!response.ok) throw new Error("Erro ao atualizar produto")
   return response.json()
 }
 
 export async function deletarProduto(id) {
-  const options = {
+  await garantirLogin()
+  const response = await fetch(`${BASE_URL}/${id}`, {
     method: "DELETE",
     headers: headersAutenticados()
-  }
-
-  const response = await fetch(`${BASE_URL}/${id}`, options)
-
-  if (!response.ok) {
-    throw new Error("Erro ao deletar produto")
-  }
-
+  })
+  if (!response.ok) throw new Error("Erro ao deletar produto")
   return true
 }
