@@ -2,6 +2,7 @@
 
 import { preview, uploadImagem } from "../functions/preview.js"
 import { getProdutos, criarProduto, atualizarProduto, deletarProduto } from "../functions/produtos.js"
+import { navegarPara } from "../app.js"
 
 async function salvarProduto(id, nome, descricao, preco,estoque, inputImagem, imagemPreview) {
     
@@ -29,7 +30,15 @@ async function salvarProduto(id, nome, descricao, preco,estoque, inputImagem, im
         await criarProduto(novoProduto)
         alert('Produto cadastrado com sucesso!')
 
-        limparCampos(id, nome, descricao, preco, estoque, inputImagem, imagemPreview)
+        const cadastrarMais = confirm('Produto cadastrado com sucesso! Deseja registrar outro produto?')
+        
+        if (cadastrarMais) {
+            
+            limparCampos(id, nome, descricao, preco, estoque, inputImagem, imagemPreview)
+            nome.focus() 
+        } else {
+            navegarPara('#consulta')
+        }
     }catch(error){
         console.error(error)
         alert('Erro ao tentar cadastrar produto')
@@ -51,7 +60,7 @@ function limparCampos(id, nome, descricao, preco, estoque, inputImagem, imagemPr
 export function criarEstruturaCadastro(produto){
 
     const formulario = document.createElement('form')
-    formulario.className = 'card shadow p-5 rounded-4 bg-white col-12 col-md-8 col-lg-6 mx-auto mt-5' 
+    formulario.className = 'card shadow p-5 rounded-4 bg-white col-12 col-md-8 col-lg-6 mx-auto mt-5 mb-5' 
 
     // Título
     const titulo = document.createElement('h1')

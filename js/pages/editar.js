@@ -2,7 +2,7 @@
 
 import { preview, uploadImagem } from "../functions/preview.js"
 import { getProdutos, atualizarProduto } from "../functions/produtos.js"
-import { criarListagem } from "./consulta.js" 
+import { navegarPara, renderizarPagina } from "../app.js"
 
 async function salvarEdicao(idProduto, nome, descricao, preco, estoque, inputImagem, imagemPreview, imagemAntigaUrl) {
     
@@ -31,9 +31,8 @@ async function salvarEdicao(idProduto, nome, descricao, preco, estoque, inputIma
         alert('Produto atualizado com sucesso!')
 
         // Redireciona de volta para a tela de consulta após salvar
-        const estrutura = document.getElementById('estrutura')
-        const telaListagem = await criarListagem()
-        estrutura.replaceChildren(telaListagem)
+        navegarPara('#consulta')
+        renderizarPagina() // Força a atualização da tela
 
     } catch(error) {
         console.error(error)
@@ -43,7 +42,7 @@ async function salvarEdicao(idProduto, nome, descricao, preco, estoque, inputIma
 
 export async function criarEstruturaEdicao(idProduto) {
     const formulario = document.createElement('form')
-    formulario.className = 'card shadow p-5 rounded-4 bg-white col-12 col-md-8 col-lg-6 mx-auto mt-5' 
+    formulario.className = 'card shadow p-5 rounded-4 bg-white col-12 col-md-8 col-lg-6 mx-auto mt-5 mb-5' 
 
     // Título
     const titulo = document.createElement('h1')
@@ -108,7 +107,7 @@ export async function criarEstruturaEdicao(idProduto) {
         preco.value = produto.preco // Preenche com o dado do banco
         grupoPreco.append(labelPreco, preco)
 
-        // 4. Agrupamento do Estoque
+        //  Agrupamento do Estoque
         const grupoEstoque = document.createElement('div')
         grupoEstoque.className = 'mb-3'
         const labelEstoque = document.createElement('label')
@@ -166,13 +165,12 @@ export async function criarEstruturaEdicao(idProduto) {
 
         // Botão Cancelar (Volta pra listagem)
         const btnCancelar = document.createElement('button')
-        btnCancelar.className = 'btn btn-outline-secondary w-50'
+        btnCancelar.className = 'btn btn-danger w-50'
         btnCancelar.type = 'button'
         btnCancelar.textContent = 'Cancelar'
-        btnCancelar.onclick = async () => {
-            const estrutura = document.getElementById('estrutura')
-            const telaListagem = await criarListagem()
-            estrutura.replaceChildren(telaListagem)
+        btnCancelar.onclick = () => {
+            navegarPara('#consulta')
+            renderizarPagina() // Força a atualização da tela
         }
 
         // Botão Salvar Edição

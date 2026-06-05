@@ -1,5 +1,17 @@
 @charset "UTF-8";
 
+/* =========================================
+   PALETA NEON SYNTHWAVE (Variáveis)
+   ========================================= */
+:root {
+    --bg-cor: #0f172a;        /* Fundo profundo */
+    --card-cor: #1e293b;      /* Card azulado escuro */
+    --accent-ciano: #22d3ee;  /* Destaque primário (Ciano) */
+    --accent-rosa: #e879f9;   /* Destaque secundário (Rosa) */
+    --texto-cor: #f1f5f9;     /* Branco gelo */
+    --hover-cor: #0891b2;     /* Hover do Ciano */
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,23 +20,23 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    background-color: var(--bg-cor);
+    color: var(--texto-cor);
 }
 
 /* =========================================
-   SISTEMA DE PREVIEW DE IMAGEM (Cadastro)
+   SISTEMA DE PREVIEW (Cadastro/Edição)
    ========================================= */
 .preview-container {
     position: relative;
     width: 80px;  
     height: 80px; 
-    border: 2px solid #0d6efd;
+    border: 2px solid var(--accent-ciano);
     border-radius: 8px;
-    background-color: #f8f9fa;
+    background-color: var(--card-cor);
     display: flex; 
     align-items: center;
     justify-content: center;
-    margin: 0; 
     overflow: hidden; 
 }
 
@@ -34,152 +46,210 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: fill; 
-    display: block;
+    object-fit: cover; 
 }
-
-.preview-input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 10;
-}
-
 
 /* =========================================
-   LISTAGEM DE PRODUTOS (Cards)
+   LISTAGEM DE PRODUTOS
    ========================================= */
-
-/* Espaçamento da Grade */
-#lista-produtos > div {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-}
-
-/* Evita que o rodapé pule durante a pesquisa */
 #lista-produtos {
     min-height: 60vh; 
 }
 
-/* 1. O CARD (Ajustado para abraçar o conteúdo) */
 #catalogo-produtos .card {
-    background-color: #ffffff;
-    border: 1px solid #eaeaea; 
+    background-color: var(--card-cor);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 20px;       
-    padding: 16px;             /* Mantém a margem branca em volta de tudo */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); 
-    display: flex;
-    flex-direction: column;
-    height: 100%;              /* Mantém os cards alinhados, sem forçar uma altura gigante */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 16px;             
+    display: flex;             /* Habilita o Flexbox no card */
+    flex-direction: column;    /* Empilha os itens verticalmente */
+    height: 100%;              /* Garante que todos tenham a mesma altura na linha */
 }
 
 #catalogo-produtos .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--accent-ciano);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
 }
 
-/* 2. A IMAGEM */
 #catalogo-produtos .card img {
     width: 100%;
-    height: 180px;         /* Altura controlada para não roubar a tela inteira */
+    height: 180px;
     object-fit: cover;
-    border-radius: 12px;   /* Cantos arredondados combinando com o card */
-    margin-bottom: 0;
+    border-radius: 12px;
 }
 
-/* 3. A TARJA DO ID */
 .id-pequeno {
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 2px; 
     text-transform: uppercase;
-    background: linear-gradient(135deg, #1a1c20, #343a40); 
-    color: #ffffff;
+    background: linear-gradient(135deg, #1e293b, #0f172a); 
+    color: var(--accent-ciano);
     padding: 8px 0;
     border-radius: 8px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* 4. TEXTOS (Nome, Preço e Descrição) */
-#catalogo-produtos .card h4 {
-    color: #2b2b2b;
-    font-size: 1.35rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
+/* Textos e Botões */
+.text-success {
+    color: var(--accent-rosa) !important;
+    text-shadow: 0 0 5px rgba(232, 121, 249, 0.3);
 }
 
-.info-container {
-    flex-grow: 1; /* O segredo para empurrar os botões pra baixo e alinhar todos os cards */
-    margin-bottom: 15px;
-}
-
-.info-container h5 {
-    font-size: 1.4rem; 
-}
-
-#catalogo-produtos .card p.text-muted {
-    font-size: 0.95rem;
-    line-height: 1.6; 
-    margin-top: 15px;
-}
-
-/* 5. ÁREA DOS BOTÕES */
 .btn-group-custom {
-    padding-bottom: 8px; 
     display: flex;
-    flex-direction: column;    
-    gap: 12px;            
+    gap: 10px;
     width: 100%;
+    margin-top: auto;          /* EMPURRA os botões para o final do card */
 }
 
 .btn-group-custom .btn {
-    width: 100%;
+    flex: 1;                   /* Faz ambos dividirem o espaço igualmente */
     font-weight: 700;
-    font-size: 1rem;
     padding: 10px;
     border-radius: 10px;
-    border: none !important; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
-    transition: all 0.2s ease;
+    border: none !important;
 }
 
-.btn-group-custom .btn:hover {
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    filter: brightness(1.05); 
+.btn-primary {
+    background-color: var(--accent-ciano) !important;
+    color: #0f172a !important;
 }
 
-/* Gradientes sutis nos botões para dar volume */
-.btn-group-custom .btn-warning {
-    background: linear-gradient(135deg, #ffc107, #ffb300);
-    color: #212529;
+.btn-warning {
+    background: linear-gradient(135deg, var(--accent-ciano), var(--accent-rosa)) !important;
+    color: white !important;
 }
 
-.btn-group-custom .btn-danger {
-    background: linear-gradient(135deg, #dc3545, #c82333);
-    color: white;
+.btn-danger {
+    background-color: #334155 !important; /* Deixei um cinza mais escuro que combina com o tema */
+    color: white !important;
 }
-
 
 /* =========================================
-   ANIMAÇÕES DE RENDERIZAÇÃO
+   FORMULÁRIOS (Cadastro e Edição)
+   ========================================= */
+.card.shadow {
+    background-color: var(--card-cor) !important;
+    color: var(--texto-cor) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-control {
+    background-color: #0f172a !important;
+    border: 1px solid #334155 !important;
+    color: white !important;
+}
+
+.form-control:focus {
+    border-color: var(--accent-ciano) !important;
+    box-shadow: 0 0 5px var(--accent-ciano);
+}
+
+/* =========================================
+   ANIMAÇÕES
    ========================================= */
 @keyframes surgirSuave {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .card-animado {
     animation: surgirSuave 0.5s ease-out forwards;
+}
+
+/* Força a cor do texto das descrições e parágrafos dentro dos cards */
+#catalogo-produtos .card p.text-muted {
+    color: #cbd5e1 !important; /* Um tom de cinza claro que brilha no fundo escuro */
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Garante que qualquer texto dentro do card seja legível */
+#catalogo-produtos .card {
+    color: var(--texto-cor) !important;
+}
+
+
+/* Ajuste para o placeholder do input de pesquisa */
+input::placeholder {
+    color: #64748b !important; /* Um cinza mais claro para dar contraste */
+    opacity: 1;              /* Garante que o navegador não diminua a transparência */
+    font-style: italic;      /* Opcional: dá um toque mais elegante */
+}
+
+/* Garante que o input também tenha o contraste correto */
+.input-pesquisa {
+    background-color: #0f172a !important; 
+    border: 1px solid #334155 !important;
+    color: var(--texto-cor) !important;
+}
+
+
+.rodape-estilizado {
+    background-color: #1e293b !important;
+    border-top: 1px solid #334155 !important;
+    color: #94a3b8 !important;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header-estilizado {
+    background-color: #1e293b !important;
+    border-bottom: 1px solid #334155 !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+.titulo-header {
+    color: var(--accent-ciano) !important;
+}
+
+
+/* Estilo geral para todos os campos do formulário */
+.form-control {
+    background-color: #0f172a !important; /* Cor de fundo escura */
+    border: 1px solid #334155 !important; /* Borda sutil */
+    color: #f1f5f9 !important;            /* Texto claro */
+}
+
+/* Corrigindo o Placeholder para ficar visível */
+.form-control::placeholder {
+    color: #64748b !important;            /* Cinza azulado visível */
+    opacity: 1;
+}
+
+/* O segredo para o Input de Arquivo (Foto do Produto) */
+input[type="file"] {
+    background-color: #1e293b !important;
+    color: #f1f5f9 !important;
+    padding: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Remove a cor branca padrão que o navegador impõe no input file */
+input[type="file"]::file-selector-button {
+    background-color: var(--accent-ciano);
+    color: #0f172a;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Botão Cancelar Estilizado */
+.btn-danger {
+    background-color: #475569 !important; /* Um cinza azulado sóbrio */
+    border: 1px solid #64748b !important;
+    color: #f8fafc !important;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #ef4444 !important; /* Fica vermelho só quando passa o mouse */
+    border-color: #ef4444 !important;
 }

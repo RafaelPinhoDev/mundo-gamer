@@ -2,6 +2,9 @@
 
 import { getProdutos, deletarProduto } from "../functions/produtos.js"
 import { criarEstruturaEdicao } from "./editar.js"
+
+
+
 // Função de excluir produto
 async function excluirProduto(id, cardElemento) {
     const confirmarExclusao = confirm("Você deseja realmente excluir esse produto?")
@@ -142,16 +145,16 @@ export async function criarListagem() {
 
                 // Grupo de botões
                 const btnGroup = document.createElement('div')
-                btnGroup.className = 'btn-group-custom'
+                btnGroup.className = 'btn-group-custom mb-2'
 
                 const btnEditar = document.createElement('button')
                 btnEditar.textContent = 'Editar'
-                btnEditar.className = 'btn btn-warning mt-2'
+                btnEditar.className = 'btn btn-warning'
                 btnEditar.onclick = () => editarProduto(produto.id)
 
                 const btnExcluir = document.createElement('button')
                 btnExcluir.textContent = 'Excluir'
-                btnExcluir.className = 'btn btn-danger mt-2'
+                btnExcluir.className = 'btn btn-danger'
                 btnExcluir.onclick = () => excluirProduto(produto.id, coluna)
 
                 btnGroup.append(btnEditar, btnExcluir)

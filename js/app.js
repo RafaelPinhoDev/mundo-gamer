@@ -1,67 +1,76 @@
-// 'use strict'
-
-// import { criarPreview } from "./pages/preview.js"
-// import { criarLogin } from "./pages/login.js"
-// import { criarAzul } from "./pages/azul.js"
-
-// const paginas = {
-
-//     preview: {
-//         titulo: 'PREVIEW DE IMAGEM', 
-//         renderizar: criarPreview
-//     },
-
-//     login: {
-//         titulo: 'LOGIN',
-//         renderizar: criarLogin
-//     },
-
-//     azul:{
-//         titulo: 'AZUL',
-//         renderizar: criarAzul
-
-//     }
-// }
-
-// export function navegarPara(paginas){
-//     window.location.hash = paginas
-// }
-
-// export function renderizarPagina(){
-    
-//     const nomePagina = window.location.hash.replace('#', '')
-//     const pagina = paginas[nomePagina]
-//     const formulario = pagina.renderizar()
-//     document.getElementById('titulo').textContent = pagina.titulo
-//     document.getElementById('app-main').replaceChildren(formulario)
-
-// }  
-
-// // Adiciona uma função na janela 
-// window.addEventListener('hashchange', renderizarPagina)
-
-// renderizarPagina('login')
-
-
 'use strict'
 
-import { criarListagem } from './pages/consulta.js'
+// Importa as funções das telas de cadastro e consulta
+import { criarEstruturaCadastro } from "./pages/cadastro.js"
+import { criarListagem } from "./pages/consulta.js"
 
-const estrutura = document.getElementById('estrutura')
+const paginas = {
 
-async function iniciarApp() {
-    console.log("1. app.js rodou e achou a div:", estrutura)
-
-    try {
-        console.log("2. Chamando a API para buscar os produtos...")
-        const telaPronta = await criarListagem()
-        
-        console.log("3. Tela montada com sucesso! Colocando no HTML...")
-        estrutura.replaceChildren(telaPronta)
-        
-    } catch (erro) {
-        console.error("Deu erro na hora de montar a tela:", erro)
+    cadastro:{
+        renderizar: criarEstruturaCadastro
+    },
+    consulta: {
+        renderizar: criarListagem
     }
 }
 
-iniciarApp()
+export function navegarPara(hash){
+    window.location.hash = hash
+}
+
+export async function renderizarPagina() {
+    const estrutura = document.getElementById('estrutura')
+
+    let nomePagina = window.location.hash.replace('#', '')
+
+    if (!nomePagina || !paginas[nomePagina]) {
+        nomePagina = 'consulta'
+        window.location.hash = '#consulta'
+        return 
+    }
+
+    const pagina = paginas[nomePagina]
+
+    // Mensagem de carregamento
+    const mensagemCarregando = document.createElement('p')
+    mensagemCarregando.className = 'text-center mt-5 fw-bold text-primary'
+    mensagemCarregando.textContent = 'Carregando tela...'
+    estrutura.replaceChildren(mensagemCarregando)
+
+    try {
+        const telaPronta = await pagina.renderizar()
+        estrutura.replaceChildren(telaPronta)
+    } catch (erro) {
+        console.error("Erro ao renderizar a página:", erro)
+        
+        // Criando a mensagem de erro sem innerHTML
+        const mensagemErro = document.createElement('p')
+        mensagemErro.className = 'text-center mt-5 text-danger fw-bold'
+        mensagemErro.textContent = 'Erro ao carregar a página.'
+        estrutura.replaceChildren(mensagemErro)
+    }
+
+}
+
+window.addEventListener('hashchange', renderizarPagina)
+
+window.addEventListener('load', () => {
+    if (window.location.hash === '') {
+        window.location.hash = '#consulta'
+    } else {
+        renderizarPagina()
+    }
+})
+
+
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        const hashAtual = window.location.hash;
+        const hashClicado = link.getAttribute('href');
+
+        if (hashAtual === hashClicado) {
+            // Se clicar no link que já está na URL, força o redesenho
+            renderizarPagina();
+        }
+    });
+});
