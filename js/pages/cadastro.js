@@ -44,7 +44,7 @@ function limparCampos(id, nome, descricao, preco, estoque, inputImagem, imagemPr
     preco.value = '';
     estoque.value = '';
     inputImagem.value = '';
-    imagemPreview.src = 'https://placehold.co/200x200/e9ecef/495057?text=Sem+Foto';
+    imagemPreview.src = './img/imagemInicial.png'
 }
 
 
@@ -152,7 +152,7 @@ export function criarEstruturaCadastro(produto){
     imagemPreview.style.objectFit = 'cover'
     
     // Imagem padrão
-    const imagemInicial = 'https://placehold.co/200x200/e9ecef/495057?text=Sem+Foto'
+    const imagemInicial = './img/imagemInicial.png'
     imagemPreview.src = imagemInicial
     grupoImagem.append(labelImagem, inputImagem, imagemPreview)
 

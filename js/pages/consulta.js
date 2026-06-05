@@ -1,7 +1,7 @@
 'use strict'
 
 import { getProdutos, deletarProduto } from "../functions/produtos.js"
-
+import { criarEstruturaEdicao } from "./editar.js"
 // Função de excluir produto
 async function excluirProduto(id, cardElemento) {
     const confirmarExclusao = confirm("Você deseja realmente excluir esse produto?")
@@ -19,8 +19,10 @@ async function excluirProduto(id, cardElemento) {
 }
 
 // Levará pra página editar produto
-function editarProduto(id) {
-    alert(`Em breve: A tela de edição do ID ${id} será aberta aqui!`)
+async function editarProduto(id) {
+    const estrutura = document.getElementById('estrutura')
+    const telaEdicao = await criarEstruturaEdicao(id)
+    estrutura.replaceChildren(telaEdicao)
 }
 
 export async function criarListagem() {
@@ -93,7 +95,7 @@ export async function criarListagem() {
                 card.className = 'card'
 
                 const imagem = document.createElement('img')
-                imagem.src = produto.imagemUrl || 'https://placehold.co/200x200/e9ecef/495057?text=Sem+Foto'
+                imagem.src = produto.imagemUrl || './img/semImagem.png'
                 imagem.alt = produto.nome
 
                 // 1. ID em uma linha centralizada antes do nome
