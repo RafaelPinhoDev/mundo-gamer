@@ -60,7 +60,10 @@ P2-PROGRAMACAO-SITIOS/
 - Link do Pitch: https://youtu.be/KUvRa7IIHbc
 
 - Link do Repositório: https://github.com/RafaelPinhoDev/mundo-gamer
+
 - Link do GitHub Pages: https://rafaelpinhodev.github.io/mundo-gamer/#consulta
+
+- Link da postagem do LinkedIn: https://www.linkedin.com/posts/rafaelsouzapinho_javascript-frontend-programaaexaeto-ugcPost-7469103838537375744-I-Ud/
 
 ---
 
