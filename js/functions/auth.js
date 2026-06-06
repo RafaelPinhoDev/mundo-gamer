@@ -1,7 +1,7 @@
 const BASE_URL = "https://base-back-dwpz.onrender.com"
 
-const ADMIN_EMAIL = "admin2@email.com"
-const ADMIN_SENHA = "123456"
+const ADMIN_EMAIL = "teste2@email.com"
+const ADMIN_SENHA = "senha123"
 
 export async function entrar(email, senha) {
   const response = await fetch(`${BASE_URL}/entrar`, {
