@@ -2,7 +2,8 @@ import { getToken, garantirLogin } from "./auth.js"
 
 const BASE_URL = "https://base-back-dwpz.onrender.com/produtos"
 
-function headersAutenticados() {
+async function headersAutenticados() {
+  await garantirLogin()
   return {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${getToken()}`
@@ -16,10 +17,9 @@ export async function getProdutos() {
 }
 
 export async function criarProduto(produto) {
-  await garantirLogin()
   const response = await fetch(BASE_URL, {
     method: "POST",
-    headers: headersAutenticados(),
+    headers: await headersAutenticados(),
     body: JSON.stringify(produto)
   })
   if (!response.ok) throw new Error("Erro ao criar produto")
@@ -27,10 +27,9 @@ export async function criarProduto(produto) {
 }
 
 export async function atualizarProduto(id, produto) {
-  await garantirLogin()
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: "PATCH",
-    headers: headersAutenticados(),
+    headers: await headersAutenticados(),
     body: JSON.stringify(produto)
   })
   if (!response.ok) throw new Error("Erro ao atualizar produto")
@@ -38,10 +37,9 @@ export async function atualizarProduto(id, produto) {
 }
 
 export async function deletarProduto(id) {
-  await garantirLogin()
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: "DELETE",
-    headers: headersAutenticados()
+    headers: await headersAutenticados()
   })
   if (!response.ok) throw new Error("Erro ao deletar produto")
   return true
