@@ -32,9 +32,9 @@ export function logout() {
   localStorage.removeItem("token")
 }
 
-// Tenta logar. Se falhar (usuário não existe ou banco resetou), cadastra e loga automaticamente
+// Sempre limpa o token antigo e faz login do zero
 export async function garantirLogin() {
-  if (getToken()) return
+  localStorage.removeItem("token")
 
   const logou = await entrar()
   if (!logou) {
